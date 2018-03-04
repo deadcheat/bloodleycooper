@@ -13,12 +13,12 @@ class BloodPit extends StatelessWidget {
       theme: new ThemeData(
         primaryColor: Colors.green,
       ),
-      home:  new Reports(),
+      home: new Reports(),
     );
   }
 }
 
-class Reports extends StatefulWidget{
+class Reports extends StatefulWidget {
   @override
   createState() => new ReportsState();
 }
@@ -31,13 +31,13 @@ class ReportFinder {
       Timing.EVENING,
       new Measurement(135, 85, 78),
       new Measurement(145, 85, 78),
-      ));
+    ));
     _reports.add(new Report(
       new DateTime.now().subtract(new Duration(days: 1)),
       Timing.EVENING,
       new Measurement(135, 85, 78),
       new Measurement(145, 85, 78),
-      ));
+    ));
     return _reports;
   }
 }
@@ -49,9 +49,14 @@ class ReportsState extends State<Reports> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-          title: new Text('BloodPit'),
-        ),
-        body: _buildReports(),
+        title: new Text('BloodPit'),
+      ),
+      body: _buildReports(),
+      floatingActionButton: new FloatingActionButton(
+        tooltip: 'Add Record',
+        child: new Icon(Icons.add),
+        backgroundColor: Colors.red,
+      ),
     );
   }
 
@@ -60,53 +65,53 @@ class ReportsState extends State<Reports> {
       itemCount: _reports.length,
       padding: const EdgeInsets.all(16.0),
       itemBuilder: (context, int i) {
-
         return _buildRow(this._reports[i]);
       },
     );
   }
 
   Widget _buildRow(Report r) => new ListTile(
-      leading: new Container(
-        child: new CircleAvatar(
-          child: new Text('${r.day.month.toString()}/${r.day.day.toString()}'),
+        leading: new Container(
+          child: new CircleAvatar(
+            child:
+                new Text('${r.day.month.toString()}/${r.day.day.toString()}'),
+          ),
         ),
-      ),
-      title: new Row(
-        children: <Widget>[
-          new Container(
-            padding: new EdgeInsets.only(right: 8.0),
-            child: new CircleAvatar(
-              backgroundColor: Colors.pinkAccent,
-              child: new Text('S'),
+        title: new Row(
+          children: <Widget>[
+            new Container(
+              padding: new EdgeInsets.only(right: 8.0),
+              child: new CircleAvatar(
+                backgroundColor: Colors.pinkAccent,
+                child: new Text('S'),
+              ),
             ),
-          ),
-          new Text(
-            r.average().maximal.toString(),
-          ),
-          new Container(
-            padding: new EdgeInsets.only(left: 8.0, right: 8.0),
-            child: new CircleAvatar(
+            new Text(
+              r.average().maximal.toString(),
+            ),
+            new Container(
+              padding: new EdgeInsets.only(left: 8.0, right: 8.0),
+              child: new CircleAvatar(
                 backgroundColor: Colors.lightBlueAccent,
                 foregroundColor: Colors.white,
                 child: new Text('D'),
               ),
-          ),
-          new Text(
-            r.average().minimal.toString(),
-          ),
-          new Container(
-            padding: new EdgeInsets.only(left: 8.0, right: 8.0),
-            child: new CircleAvatar(
+            ),
+            new Text(
+              r.average().minimal.toString(),
+            ),
+            new Container(
+              padding: new EdgeInsets.only(left: 8.0, right: 8.0),
+              child: new CircleAvatar(
                 backgroundColor: Colors.orange,
                 foregroundColor: Colors.white,
                 child: new Text('P'),
               ),
-          ),
-          new Text(
-            r.average().pulse.toString(),
-          ),
-        ],
-      ),
-    );
+            ),
+            new Text(
+              r.average().pulse.toString(),
+            ),
+          ],
+        ),
+      );
 }
