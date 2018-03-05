@@ -1,7 +1,7 @@
+import 'package:bloodpit/addreport.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
-import 'report.dart';
-import 'timing.dart';
+import 'package:bloodpit/report.dart';
+import 'package:bloodpit/timing.dart';
 
 void main() => runApp(new BloodPit());
 
@@ -57,7 +57,13 @@ class ReportsState extends State<Reports> {
       ),
       body: _buildReports(),
       floatingActionButton: new FloatingActionButton(
-        onPressed: _addReport,
+        onPressed: () {
+          Navigator.of(context).push(new MaterialPageRoute<Null>(
+              builder: (BuildContext context) {
+                return new AddReportDialog();
+              },
+              fullscreenDialog: true));
+        },
         tooltip: 'Add Record',
         child: new Icon(Icons.add),
         backgroundColor: Colors.red,
