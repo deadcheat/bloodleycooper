@@ -45,6 +45,10 @@ class ReportFinder {
 class ReportsState extends State<Reports> {
   final _reports = new ReportFinder().find();
 
+  void _addReport() {
+    setState(() => {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -53,6 +57,7 @@ class ReportsState extends State<Reports> {
       ),
       body: _buildReports(),
       floatingActionButton: new FloatingActionButton(
+        onPressed: _addReport,
         tooltip: 'Add Record',
         child: new Icon(Icons.add),
         backgroundColor: Colors.red,
