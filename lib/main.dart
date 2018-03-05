@@ -70,12 +70,12 @@ class ReportsState extends State<Reports> {
       itemCount: _reports.length,
       padding: const EdgeInsets.all(16.0),
       itemBuilder: (context, int i) {
-        return _buildRow2(this._reports[i]);
+        return _buildLine(this._reports[i]);
       },
     );
   }
 
-  Widget _buildRow2(Report r) => new Column(
+  Widget _buildLine(Report r) => new Column(
         children: <Widget>[
           _buildRow(r),
           new Divider(
