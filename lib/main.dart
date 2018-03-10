@@ -33,7 +33,7 @@ class ReportFinder {
       new Measurement(145, 85, 78),
     ));
     _reports.add(new Report(
-      new DateTime.now().subtract(new Duration(days: 1)),
+      new DateTime.now().subtract(new Duration(days: 120)),
       Timing.EVENING,
       new Measurement(135, 85, 78),
       new Measurement(145, 85, 78),
@@ -57,12 +57,17 @@ class ReportsState extends State<Reports> {
       ),
       body: _buildReports(),
       floatingActionButton: new FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(new MaterialPageRoute<Null>(
-              builder: (BuildContext context) {
-                return new AddReportDialog();
-              },
-              fullscreenDialog: true));
+        onPressed: () async {
+          Report r =
+              await Navigator.of(context).push(new MaterialPageRoute<Report>(
+                  builder: (BuildContext context) {
+                    return new AddReportDialog();
+                  },
+                  fullscreenDialog: true));
+          if (r == null) {
+            return;
+          }
+          _reports.insert(0, r);
         },
         tooltip: 'Add Record',
         child: new Icon(Icons.add),
@@ -93,8 +98,11 @@ class ReportsState extends State<Reports> {
   Widget _buildRow(Report r) => new ListTile(
         leading: new Container(
           child: new CircleAvatar(
-            child:
-                new Text('${r.day.month.toString()}/${r.day.day.toString()}'),
+            child: new Text(
+              '${r.day.month.toString()}/${r.day.day.toString()}',
+              style: new TextStyle(fontSize: 12.0),
+              // DefaultTextStyle.of(context).style.apply(fontSizeFactor: 0.4),
+            ),
           ),
         ),
         title: new Row(

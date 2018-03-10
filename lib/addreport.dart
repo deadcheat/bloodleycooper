@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:bloodpit/report.dart';
+import 'package:bloodpit/timing.dart';
 
 class AddReportDialog extends StatefulWidget {
   @override
@@ -20,10 +22,10 @@ class AddReportDialogState extends State<AddReportDialog> {
   double _second_diastolic = _diastolic_default;
   double _second_systolic = _systolic_default;
   double _second_pulse = _pulse_default;
-  int _timing = 0;
+  Timing _timing = Timing.MORNING;
   DateTime _date = new DateTime.now();
 
-  void handleTimingChanged(int value) {
+  void handleTimingChanged(Timing value) {
     setState(() {
       _timing = value;
     });
@@ -36,12 +38,15 @@ class AddReportDialogState extends State<AddReportDialog> {
         title: const Text('Add New Report'),
       ),
       floatingActionButton: new FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(new MaterialPageRoute<Null>(
-              builder: (BuildContext context) {
-                return new AddReportDialog();
-              },
-              fullscreenDialog: true));
+        onPressed: () async {
+          Navigator.of(context).pop(new Report(
+                new DateTime.now(),
+                _timing,
+                new Measurement(_first_diastolic.toInt(),
+                    _first_systolic.toInt(), _first_pulse.toInt()),
+                new Measurement(_second_diastolic.toInt(),
+                    _second_systolic.toInt(), _second_pulse.toInt()),
+              ));
         },
         tooltip: 'Add Record',
         child: new Icon(Icons.save),
@@ -63,15 +68,15 @@ class AddReportDialogState extends State<AddReportDialog> {
                 child: new Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      new Radio<int>(
-                        value: 0,
+                      new Radio<Timing>(
+                        value: Timing.MORNING,
                         groupValue: _timing,
                         onChanged: handleTimingChanged,
                         // onChanged: handleRadioValueChanged
                       ),
                       new Text("Morning"),
-                      new Radio<int>(
-                        value: 1,
+                      new Radio<Timing>(
+                        value: Timing.EVENING,
                         activeColor: Colors.orange,
                         groupValue: _timing,
                         onChanged: handleTimingChanged,
