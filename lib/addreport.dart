@@ -38,9 +38,9 @@ class AddReportDialogState extends State<AddReportDialog> {
         title: const Text('Add New Report'),
       ),
       floatingActionButton: new FloatingActionButton(
-        onPressed: () async {
+        onPressed: () {
           Navigator.of(context).pop(new Report(
-                new DateTime.now(),
+                _date,
                 _timing,
                 new Measurement(_first_diastolic.toInt(),
                     _first_systolic.toInt(), _first_pulse.toInt()),
