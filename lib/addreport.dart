@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:bloodpit/report.dart';
 import 'package:bloodpit/timing.dart';
 
+import 'package:bloodpit/datepicker.dart';
+
 class AddReportDialog extends StatefulWidget {
   @override
   AddReportDialogState createState() => new AddReportDialogState();
@@ -58,6 +60,15 @@ class AddReportDialogState extends State<AddReportDialog> {
           key: formKey,
           child: new Column(
             children: [
+              new DatePicker(
+                labelText: 'Date',
+                selectedDate: _date,
+                selectDate: (DateTime date) {
+                  setState(() {
+                    _date = date;
+                  });
+                },
+              ),
               new Container(
                 margin: new EdgeInsets.only(left: 10.0),
                 alignment: Alignment.centerLeft,
