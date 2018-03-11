@@ -70,7 +70,7 @@ class AddReportDialogState extends State<AddReportDialog> {
                 },
               ),
               new Container(
-                margin: new EdgeInsets.only(left: 10.0),
+                margin: new EdgeInsets.only(),
                 alignment: Alignment.centerLeft,
                 child: new Text("Timing(Morning/Evening)",
                     style: new TextStyle(fontWeight: FontWeight.bold)),
@@ -97,13 +97,14 @@ class AddReportDialogState extends State<AddReportDialog> {
                     ]),
               ),
               new Container(
-                margin: new EdgeInsets.only(left: 10.0),
                 alignment: Alignment.centerLeft,
                 child: new Text("1st time measurement",
                     style: new TextStyle(fontWeight: FontWeight.bold)),
               ),
               new Container(
-                margin: new EdgeInsets.only(top: 10.0, left: 10.0),
+                margin: new EdgeInsets.only(
+                  top: 10.0,
+                ),
                 alignment: Alignment.centerLeft,
                 child: new Text(
                     "Diastolic: " + _first_diastolic.toInt().toString(),
@@ -121,7 +122,9 @@ class AddReportDialogState extends State<AddReportDialog> {
                     });
                   }),
               new Container(
-                margin: new EdgeInsets.only(top: 10.0, left: 10.0),
+                margin: new EdgeInsets.only(
+                  top: 10.0,
+                ),
                 alignment: Alignment.centerLeft,
                 child: new Text(
                     "Systolic: " + _first_systolic.toInt().toString(),
@@ -139,7 +142,9 @@ class AddReportDialogState extends State<AddReportDialog> {
                     });
                   }),
               new Container(
-                margin: new EdgeInsets.only(top: 10.0, left: 10.0),
+                margin: new EdgeInsets.only(
+                  top: 10.0,
+                ),
                 alignment: Alignment.centerLeft,
                 child: new Text("Pulse: " + _first_pulse.toInt().toString(),
                     style: new TextStyle(fontWeight: FontWeight.bold)),
@@ -156,13 +161,17 @@ class AddReportDialogState extends State<AddReportDialog> {
                     });
                   }),
               new Container(
-                margin: new EdgeInsets.only(top: 15.0, left: 10.0),
+                margin: new EdgeInsets.only(
+                  top: 15.0,
+                ),
                 alignment: Alignment.centerLeft,
                 child: new Text("2nd time measurement",
                     style: new TextStyle(fontWeight: FontWeight.bold)),
               ),
               new Container(
-                margin: new EdgeInsets.only(top: 10.0, left: 10.0),
+                margin: new EdgeInsets.only(
+                  top: 10.0,
+                ),
                 alignment: Alignment.centerLeft,
                 child: new Text(
                     "Diastolic: " + _second_diastolic.toInt().toString(),
@@ -180,7 +189,9 @@ class AddReportDialogState extends State<AddReportDialog> {
                     });
                   }),
               new Container(
-                margin: new EdgeInsets.only(top: 10.0, left: 10.0),
+                margin: new EdgeInsets.only(
+                  top: 10.0,
+                ),
                 alignment: Alignment.centerLeft,
                 child: new Text(
                     "Systolic: " + _second_systolic.toInt().toString(),
@@ -198,7 +209,9 @@ class AddReportDialogState extends State<AddReportDialog> {
                     });
                   }),
               new Container(
-                margin: new EdgeInsets.only(top: 10.0, left: 10.0),
+                margin: new EdgeInsets.only(
+                  top: 10.0,
+                ),
                 alignment: Alignment.centerLeft,
                 child: new Text("Pulse: " + _second_pulse.toInt().toString(),
                     style: new TextStyle(fontWeight: FontWeight.bold)),
@@ -215,13 +228,17 @@ class AddReportDialogState extends State<AddReportDialog> {
                     });
                   }),
               new Container(
-                margin: new EdgeInsets.only(top: 15.0, left: 10.0),
+                margin: new EdgeInsets.only(
+                  top: 15.0,
+                ),
                 alignment: Alignment.centerLeft,
                 child: new Text("Average",
                     style: new TextStyle(fontWeight: FontWeight.bold)),
               ),
               new Container(
-                margin: new EdgeInsets.only(top: 10.0, left: 10.0),
+                margin: new EdgeInsets.only(
+                  top: 10.0,
+                ),
                 alignment: Alignment.centerLeft,
                 child: new Text(
                     "Diastolic: " +
@@ -231,7 +248,9 @@ class AddReportDialogState extends State<AddReportDialog> {
                     style: new TextStyle(fontWeight: FontWeight.bold)),
               ),
               new Container(
-                margin: new EdgeInsets.only(top: 10.0, left: 10.0),
+                margin: new EdgeInsets.only(
+                  top: 10.0,
+                ),
                 alignment: Alignment.centerLeft,
                 child: new Text(
                     "Systolic: " +
@@ -241,7 +260,9 @@ class AddReportDialogState extends State<AddReportDialog> {
                     style: new TextStyle(fontWeight: FontWeight.bold)),
               ),
               new Container(
-                margin: new EdgeInsets.only(top: 10.0, left: 10.0),
+                margin: new EdgeInsets.only(
+                  top: 10.0,
+                ),
                 alignment: Alignment.centerLeft,
                 child: new Text(
                     "Pulse: " +
