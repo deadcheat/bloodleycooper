@@ -42,6 +42,7 @@ class AddReportDialogState extends State<AddReportDialog> {
       floatingActionButton: new FloatingActionButton(
         onPressed: () {
           Navigator.of(context).pop(new Report(
+                null,
                 _date,
                 _timing,
                 new Measurement(_first_diastolic.toInt(),

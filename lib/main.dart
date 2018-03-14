@@ -34,12 +34,14 @@ class ReportFinder {
 
   List<Report> find() {
     _reports.add(new Report(
+      100,
       new DateTime.now(),
       Timing.EVENING,
       new Measurement(135, 85, 78),
       new Measurement(145, 85, 78),
     ));
     _reports.add(new Report(
+      101,
       new DateTime.now().subtract(new Duration(days: 120)),
       Timing.EVENING,
       new Measurement(135, 85, 78),

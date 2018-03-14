@@ -1,4 +1,3 @@
-
 class Timing {
   final int value;
   const Timing({
@@ -17,13 +16,17 @@ class Timing {
   @override
   String toString() {
     switch (this.value) {
-      case evening: 
+      case evening:
         return "Evening";
       case morning:
         return "Morning";
       default:
         throw new StateError("value is unexpected");
     }
+  }
+
+  int toCode() {
+    return this.value;
   }
 
   @override
