@@ -8,6 +8,7 @@ import 'package:bloodpit/timing.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:bloodpit/database.dart';
 
 void main() => runApp(new BloodPit());
 
@@ -74,6 +75,11 @@ class ReportsState extends State<Reports> {
                   },
                   fullscreenDialog: true));
           if (r == null) {
+            return;
+          }
+          bool success = await addReport(r);
+          if (!success) {
+            // may have to throw error here
             return;
           }
           _reports.insert(0, r);
