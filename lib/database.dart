@@ -7,13 +7,14 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:bloodpit/report.dart';
 
-Future<bool> addReport(Report report) async {
+Future<Report> addReport(Report report) async {
   Database db = await getDB();
   final int resId = await db.insert("Reports", report.toMap());
   if (resId == 0) {
-    return false;
+    return null;
   }
-  return true;
+  return new Report(
+      resId, report.day, report.timing, report.first, report.second);
 }
 
 Future<Database> getDB() async {

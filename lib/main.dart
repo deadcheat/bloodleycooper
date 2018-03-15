@@ -55,8 +55,8 @@ class ReportFinder {
 class ReportsState extends State<Reports> {
   final _reports = new ReportFinder().find();
 
-  void _addReport() {
-    setState(() => {});
+  void _addReport(int pos, Report r) {
+    setState(() => _reports.insert(pos, r));
   }
 
   @override
@@ -77,12 +77,8 @@ class ReportsState extends State<Reports> {
           if (r == null) {
             return;
           }
-          bool success = await addReport(r);
-          if (!success) {
-            // may have to throw error here
-            return;
-          }
-          _reports.insert(0, r);
+          final future = addReport(r);
+          future.then((r) => _addReport(0, r));
         },
         tooltip: 'Add Record',
         child: new Icon(Icons.add),

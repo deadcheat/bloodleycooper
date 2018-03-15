@@ -23,7 +23,7 @@ class Report {
 
   Map toMap() {
     Map map = {
-      "date": day,
+      "date": day.millisecondsSinceEpoch,
       "timing": timing.toCode(),
       "first_min": first.minimal,
       "first_max": first.maximal,
