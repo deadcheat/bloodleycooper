@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:bloodpit/report.dart';
-import 'package:bloodpit/timing.dart';
 
 import 'package:bloodpit/datepicker.dart';
 
@@ -24,14 +23,7 @@ class AddReportDialogState extends State<AddReportDialog> {
   double _second_diastolic = _diastolic_default;
   double _second_systolic = _systolic_default;
   double _second_pulse = _pulse_default;
-  Timing _timing = Timing.MORNING;
   DateTime _date = new DateTime.now();
-
-  void handleTimingChanged(Timing value) {
-    setState(() {
-      _timing = value;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +36,6 @@ class AddReportDialogState extends State<AddReportDialog> {
           Navigator.of(context).pop(new Report(
                 null,
                 _date,
-                _timing,
                 new Measurement(_first_diastolic.toInt(),
                     _first_systolic.toInt(), _first_pulse.toInt()),
                 new Measurement(_second_diastolic.toInt(),
@@ -75,27 +66,6 @@ class AddReportDialogState extends State<AddReportDialog> {
                 alignment: Alignment.centerLeft,
                 child: new Text("Timing(Morning/Evening)",
                     style: new TextStyle(fontWeight: FontWeight.bold)),
-              ),
-              new Container(
-                child: new Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      new Radio<Timing>(
-                        value: Timing.MORNING,
-                        groupValue: _timing,
-                        onChanged: handleTimingChanged,
-                        // onChanged: handleRadioValueChanged
-                      ),
-                      new Text("Morning"),
-                      new Radio<Timing>(
-                        value: Timing.EVENING,
-                        activeColor: Colors.orange,
-                        groupValue: _timing,
-                        onChanged: handleTimingChanged,
-                        // onChanged: handleRadioValueChanged
-                      ),
-                      new Text("Evening"),
-                    ]),
               ),
               new Container(
                 alignment: Alignment.centerLeft,

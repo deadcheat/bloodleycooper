@@ -13,8 +13,7 @@ Future<Report> addReport(Report report) async {
   if (resId == 0) {
     return null;
   }
-  return new Report(
-      resId, report.day, report.timing, report.first, report.second);
+  return new Report(resId, report.day, report.first, report.second);
 }
 
 Future<Database> getDB() async {
@@ -25,7 +24,7 @@ Future<Database> getDB() async {
       onCreate: (Database db, int version) async {
     // When creating the db, create the table
     await db.execute(
-        "CREATE TABLE Reports (id INTEGER PRIMARY KEY AUTOINCREMENT, date INTEGER, timing INTEGER, first_min INTEGER, first_max INTEGER, first_pul INTEGER, second_min INTEGER, second_max INTEGER, second_pul INTEGER)");
+        "CREATE TABLE Reports (id INTEGER PRIMARY KEY AUTOINCREMENT, date INTEGER, first_min INTEGER, first_max INTEGER, first_pul INTEGER, second_min INTEGER, second_max INTEGER, second_pul INTEGER)");
   });
   return database;
 }
