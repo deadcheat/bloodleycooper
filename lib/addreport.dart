@@ -62,12 +62,6 @@ class AddReportDialogState extends State<AddReportDialog> {
                 },
               ),
               new Container(
-                margin: new EdgeInsets.only(),
-                alignment: Alignment.centerLeft,
-                child: new Text("Timing(Morning/Evening)",
-                    style: new TextStyle(fontWeight: FontWeight.bold)),
-              ),
-              new Container(
                 alignment: Alignment.centerLeft,
                 child: new Text("1st time measurement",
                     style: new TextStyle(fontWeight: FontWeight.bold)),
