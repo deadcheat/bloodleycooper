@@ -226,35 +226,46 @@ class AddReportDialogState extends State<AddReportDialog> {
                 margin: new EdgeInsets.only(
                   top: 10.0,
                 ),
-                alignment: Alignment.centerLeft,
-                child: new Text(
-                    "Diastolic: " +
-                        ((_first_diastolic + _second_diastolic) / 2)
-                            .toInt()
-                            .toString(),
-                    style: new TextStyle(fontWeight: FontWeight.bold)),
-              ),
-              new Container(
-                margin: new EdgeInsets.only(
-                  top: 10.0,
+                child: new Row(
+                  children: <Widget>[
+                    new Container(
+                      child: new CircleAvatar(
+                        backgroundColor: Colors.deepOrange,
+                        child: new Icon(
+                          Icons.arrow_upward,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    new Flexible(
+                      child: new TextFormField(),
+                    ),
+                    new Container(
+                      child: new CircleAvatar(
+                        backgroundColor: Colors.blue,
+                        child: new Icon(
+                          Icons.arrow_downward,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    new Flexible(
+                      child: new TextFormField(),
+                    ),
+                    new Container(
+                      child: new CircleAvatar(
+                        backgroundColor: Colors.pinkAccent,
+                        child: new Icon(
+                          Icons.favorite,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    new Flexible(
+                      child: new TextFormField(),
+                    ),
+                  ],
                 ),
-                alignment: Alignment.centerLeft,
-                child: new Text(
-                    "Systolic: " +
-                        ((_first_systolic + _second_systolic) / 2)
-                            .toInt()
-                            .toString(),
-                    style: new TextStyle(fontWeight: FontWeight.bold)),
-              ),
-              new Container(
-                margin: new EdgeInsets.only(
-                  top: 10.0,
-                ),
-                alignment: Alignment.centerLeft,
-                child: new Text(
-                    "Pulse: " +
-                        ((_first_pulse + _second_pulse) / 2).toInt().toString(),
-                    style: new TextStyle(fontWeight: FontWeight.bold)),
               ),
             ],
           ),
