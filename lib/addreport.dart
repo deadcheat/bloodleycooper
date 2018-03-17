@@ -70,61 +70,53 @@ class AddReportDialogState extends State<AddReportDialog> {
                 margin: new EdgeInsets.only(
                   top: 10.0,
                 ),
-                alignment: Alignment.centerLeft,
-                child: new Text(
-                    "Diastolic: " + _first_diastolic.toInt().toString(),
-                    style: new TextStyle(fontWeight: FontWeight.bold)),
-              ),
-              new Slider(
-                  value: _first_diastolic,
-                  activeColor: Colors.green,
-                  min: _bp_min,
-                  max: _bp_max,
-                  divisions: (_bp_max - _bp_min).toInt(),
-                  onChanged: (double value) {
-                    setState(() {
-                      _first_diastolic = value;
-                    });
-                  }),
-              new Container(
-                margin: new EdgeInsets.only(
-                  top: 10.0,
+                child: new Row(
+                  children: <Widget>[
+                    new Container(
+                      child: new CircleAvatar(
+                        backgroundColor: Colors.deepOrange,
+                        child: new Icon(
+                          Icons.arrow_upward,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    new Flexible(
+                      child: new TextField(
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                    new Container(
+                      child: new CircleAvatar(
+                        backgroundColor: Colors.blue,
+                        child: new Icon(
+                          Icons.arrow_downward,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    new Flexible(
+                      child: new TextField(
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                    new Container(
+                      child: new CircleAvatar(
+                        backgroundColor: Colors.pinkAccent,
+                        child: new Icon(
+                          Icons.favorite,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    new Flexible(
+                      child: new TextField(
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                  ],
                 ),
-                alignment: Alignment.centerLeft,
-                child: new Text(
-                    "Systolic: " + _first_systolic.toInt().toString(),
-                    style: new TextStyle(fontWeight: FontWeight.bold)),
               ),
-              new Slider(
-                  value: _first_systolic,
-                  activeColor: Colors.green,
-                  min: _bp_min,
-                  max: _bp_max,
-                  divisions: (_bp_max - _bp_min).toInt(),
-                  onChanged: (double value) {
-                    setState(() {
-                      _first_systolic = value;
-                    });
-                  }),
-              new Container(
-                margin: new EdgeInsets.only(
-                  top: 10.0,
-                ),
-                alignment: Alignment.centerLeft,
-                child: new Text("Pulse: " + _first_pulse.toInt().toString(),
-                    style: new TextStyle(fontWeight: FontWeight.bold)),
-              ),
-              new Slider(
-                  value: _first_pulse,
-                  activeColor: Colors.green,
-                  min: _p_min,
-                  max: _p_max,
-                  divisions: (_p_max - _p_min).toInt(),
-                  onChanged: (double value) {
-                    setState(() {
-                      _first_pulse = value;
-                    });
-                  }),
               new Container(
                 margin: new EdgeInsets.only(
                   top: 15.0,
@@ -137,67 +129,59 @@ class AddReportDialogState extends State<AddReportDialog> {
                 margin: new EdgeInsets.only(
                   top: 10.0,
                 ),
-                alignment: Alignment.centerLeft,
-                child: new Text(
-                    "Diastolic: " + _second_diastolic.toInt().toString(),
-                    style: new TextStyle(fontWeight: FontWeight.bold)),
-              ),
-              new Slider(
-                  value: _second_diastolic,
-                  activeColor: Colors.purple,
-                  min: _bp_min,
-                  max: _bp_max,
-                  divisions: (_bp_max - _bp_min).toInt(),
-                  onChanged: (double value) {
-                    setState(() {
-                      _second_diastolic = value;
-                    });
-                  }),
-              new Container(
-                margin: new EdgeInsets.only(
-                  top: 10.0,
+                child: new Row(
+                  children: <Widget>[
+                    new Container(
+                      child: new CircleAvatar(
+                        backgroundColor: Colors.deepOrange,
+                        child: new Icon(
+                          Icons.arrow_upward,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    new Flexible(
+                      child: new TextField(
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                    new Container(
+                      child: new CircleAvatar(
+                        backgroundColor: Colors.blue,
+                        child: new Icon(
+                          Icons.arrow_downward,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    new Flexible(
+                      child: new TextField(
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                    new Container(
+                      child: new CircleAvatar(
+                        backgroundColor: Colors.pinkAccent,
+                        child: new Icon(
+                          Icons.favorite,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    new Flexible(
+                      child: new TextField(
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                  ],
                 ),
-                alignment: Alignment.centerLeft,
-                child: new Text(
-                    "Systolic: " + _second_systolic.toInt().toString(),
-                    style: new TextStyle(fontWeight: FontWeight.bold)),
               ),
-              new Slider(
-                  value: _second_systolic,
-                  activeColor: Colors.purple,
-                  min: _bp_min,
-                  max: _bp_max,
-                  divisions: (_bp_max - _bp_min).toInt(),
-                  onChanged: (double value) {
-                    setState(() {
-                      _second_systolic = value;
-                    });
-                  }),
-              new Container(
-                margin: new EdgeInsets.only(
-                  top: 10.0,
-                ),
-                alignment: Alignment.centerLeft,
-                child: new Text("Pulse: " + _second_pulse.toInt().toString(),
-                    style: new TextStyle(fontWeight: FontWeight.bold)),
-              ),
-              new Slider(
-                  value: _second_pulse,
-                  activeColor: Colors.purple,
-                  min: _p_min,
-                  max: _p_max,
-                  divisions: 120,
-                  onChanged: (double value) {
-                    setState(() {
-                      _second_pulse = value;
-                    });
-                  }),
               new Container(
                 margin: new EdgeInsets.only(
                   top: 15.0,
                 ),
                 alignment: Alignment.centerLeft,
-                child: new Text("Average",
+                child: new Text("Averages",
                     style: new TextStyle(fontWeight: FontWeight.bold)),
               ),
               new Container(
