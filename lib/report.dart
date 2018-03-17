@@ -1,12 +1,16 @@
+import 'timing.dart';
+
 class Report {
   const Report(
     this.id,
     this.day,
+    this.timing,
     this.first,
     this.second,
   );
   final int id;
   final DateTime day;
+  final Timing timing;
   final Measurement first;
   final Measurement second;
 
@@ -20,6 +24,7 @@ class Report {
   Map toMap() {
     Map map = {
       "date": day.millisecondsSinceEpoch,
+      "timing": timing.toCode(),
       "first_min": first.minimal,
       "first_max": first.maximal,
       "first_pul": first.pulse,

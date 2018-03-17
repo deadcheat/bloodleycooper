@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:bloodpit/addreport.dart';
 import 'package:flutter/material.dart';
 import 'package:bloodpit/report.dart';
+import 'package:bloodpit/timing.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -36,12 +37,14 @@ class ReportFinder {
     _reports.add(new Report(
       100,
       new DateTime.now(),
+      Timing.EVENING,
       new Measurement(135, 85, 78),
       new Measurement(145, 85, 78),
     ));
     _reports.add(new Report(
       101,
       new DateTime.now().subtract(new Duration(days: 120)),
+      Timing.EVENING,
       new Measurement(135, 85, 78),
       new Measurement(145, 85, 78),
     ));
