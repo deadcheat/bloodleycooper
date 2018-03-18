@@ -117,12 +117,13 @@ class ReportsState extends State<Reports> {
           ),
         ),
         title: new Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             new Container(
               padding: new EdgeInsets.only(right: 8.0),
               child: new CircleAvatar(
-                backgroundColor: Colors.pinkAccent,
-                child: new Text('S'),
+                backgroundColor: Colors.deepOrange,
+                child: new Icon(Icons.arrow_upward, color: Colors.white),
               ),
             ),
             new Text(
@@ -131,9 +132,8 @@ class ReportsState extends State<Reports> {
             new Container(
               padding: new EdgeInsets.only(left: 8.0, right: 8.0),
               child: new CircleAvatar(
-                backgroundColor: Colors.lightBlueAccent,
-                foregroundColor: Colors.white,
-                child: new Text('D'),
+                backgroundColor: Colors.blue,
+                child: new Icon(Icons.arrow_downward, color: Colors.white),
               ),
             ),
             new Text(
@@ -142,9 +142,8 @@ class ReportsState extends State<Reports> {
             new Container(
               padding: new EdgeInsets.only(left: 8.0, right: 8.0),
               child: new CircleAvatar(
-                backgroundColor: Colors.orange,
-                foregroundColor: Colors.white,
-                child: new Text('P'),
+                backgroundColor: Colors.pinkAccent,
+                child: new Icon(Icons.favorite, color: Colors.white),
               ),
             ),
             new Text(

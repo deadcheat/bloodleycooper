@@ -10,7 +10,8 @@ class AddReportDialog extends StatefulWidget {
 }
 
 class AddReportDialogState extends State<AddReportDialog> {
-  final formKey = new GlobalKey<FormState>();
+  final _formKey = new GlobalKey<FormState>();
+  final _scaffoldKey = new GlobalKey<ScaffoldState>();
   Timing _timing = Timing.MORNING;
   DateTime _date = new DateTime.now();
   final _fSCon = new TextEditingController();
@@ -62,20 +63,29 @@ class AddReportDialogState extends State<AddReportDialog> {
     _sDCon.addListener(_refleshAverage);
     _sPCon.addListener(_refleshAverage);
     return new Scaffold(
+      key: _scaffoldKey,
       appBar: new AppBar(
         title: const Text('Add New Report'),
       ),
       floatingActionButton: new FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pop(new Report(
-                null,
-                _date,
-                _timing,
-                new Measurement(parseWithZero(_fSCon.text),
-                    parseWithZero(_fDCon.text), parseWithZero(_fPCon.text)),
-                new Measurement(parseWithZero(_sSCon.text),
-                    parseWithZero(_sDCon.text), parseWithZero(_sPCon.text)),
-              ));
+          final form = _formKey.currentState;
+          if (form.validate()) {
+            Navigator.of(context).pop(new Report(
+                  null,
+                  _date,
+                  _timing,
+                  new Measurement(parseWithZero(_fSCon.text),
+                      parseWithZero(_fDCon.text), parseWithZero(_fPCon.text)),
+                  new Measurement(parseWithZero(_sSCon.text),
+                      parseWithZero(_sDCon.text), parseWithZero(_sPCon.text)),
+                ));
+          } else {
+            Scaffold.of(_scaffoldKey.currentContext).showSnackBar(new SnackBar(
+                  content: new Text("Invalidated input"),
+                  duration: new Duration(seconds: 5),
+                ));
+          }
         },
         tooltip: 'Add Record',
         child: new Icon(Icons.save),
@@ -84,8 +94,8 @@ class AddReportDialogState extends State<AddReportDialog> {
       body: new Padding(
         padding: const EdgeInsets.all(16.0),
         child: new Form(
-          key: formKey,
-          autovalidate: true,
+          key: _formKey,
+          // autovalidate: true,
           child: new Column(
             children: [
               new DatePicker(
