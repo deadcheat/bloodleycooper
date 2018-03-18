@@ -77,6 +77,7 @@ class ReportsState extends State<Reports> {
           if (r == null) {
             return;
           }
+          print(r);
           final future = addReport(r);
           future.then((r) => _addReport(0, r));
         },

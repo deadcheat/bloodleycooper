@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:bloodpit/report.dart';
 import 'package:bloodpit/timing.dart';
-
 import 'package:bloodpit/datepicker.dart';
+import 'package:bloodpit/disabledfocus.dart';
 
 class AddReportDialog extends StatefulWidget {
   @override
@@ -11,21 +11,17 @@ class AddReportDialog extends StatefulWidget {
 
 class AddReportDialogState extends State<AddReportDialog> {
   final formKey = new GlobalKey<FormState>();
-  static final double _diastolic_default = 130.0;
-  static final double _systolic_default = 80.0;
-  static final double _pulse_default = 80.0;
-  static final double _bp_max = 220.0;
-  static final double _bp_min = 30.0;
-  static final double _p_max = 150.0;
-  static final double _p_min = 30.0;
-  double _first_diastolic = _diastolic_default;
-  double _first_systolic = _systolic_default;
-  double _first_pulse = _pulse_default;
-  double _second_diastolic = _diastolic_default;
-  double _second_systolic = _systolic_default;
-  double _second_pulse = _pulse_default;
   Timing _timing = Timing.MORNING;
   DateTime _date = new DateTime.now();
+  final _fSCon = new TextEditingController();
+  final _fDCon = new TextEditingController();
+  final _fPCon = new TextEditingController();
+  final _sSCon = new TextEditingController();
+  final _sDCon = new TextEditingController();
+  final _sPCon = new TextEditingController();
+  final _aSCon = new TextEditingController();
+  final _aDCon = new TextEditingController();
+  final _aPCon = new TextEditingController();
 
   void handleTimingChanged(Timing value) {
     setState(() {
@@ -33,8 +29,38 @@ class AddReportDialogState extends State<AddReportDialog> {
     });
   }
 
+  String _validate(String value) {
+    if (value.isEmpty) return 'required';
+    if (parseWithZero(value) == 0) return 'zero is no way';
+    final RegExp nameExp = new RegExp(r'^[0-9]+$');
+    if (!nameExp.hasMatch(value)) return 'numbers only';
+    return null;
+  }
+
+  int parseWithZero(String value) {
+    return int.parse(value, onError: (v) => 0);
+  }
+
+  void _refleshAverage() {
+    final averageD =
+        (parseWithZero(_fDCon.text) + parseWithZero(_sDCon.text)) / 2;
+    final averageS =
+        (parseWithZero(_fSCon.text) + parseWithZero(_sSCon.text)) / 2;
+    final averageP =
+        (parseWithZero(_fPCon.text) + parseWithZero(_sPCon.text)) / 2;
+    _aDCon.text = averageD.toInt().toString();
+    _aSCon.text = averageS.toInt().toString();
+    _aPCon.text = averageP.toInt().toString();
+  }
+
   @override
   Widget build(BuildContext context) {
+    _fSCon.addListener(_refleshAverage);
+    _fDCon.addListener(_refleshAverage);
+    _fPCon.addListener(_refleshAverage);
+    _sSCon.addListener(_refleshAverage);
+    _sDCon.addListener(_refleshAverage);
+    _sPCon.addListener(_refleshAverage);
     return new Scaffold(
       appBar: new AppBar(
         title: const Text('Add New Report'),
@@ -45,10 +71,10 @@ class AddReportDialogState extends State<AddReportDialog> {
                 null,
                 _date,
                 _timing,
-                new Measurement(_first_diastolic.toInt(),
-                    _first_systolic.toInt(), _first_pulse.toInt()),
-                new Measurement(_second_diastolic.toInt(),
-                    _second_systolic.toInt(), _second_pulse.toInt()),
+                new Measurement(parseWithZero(_fSCon.text),
+                    parseWithZero(_fDCon.text), parseWithZero(_fPCon.text)),
+                new Measurement(parseWithZero(_sSCon.text),
+                    parseWithZero(_sDCon.text), parseWithZero(_sPCon.text)),
               ));
         },
         tooltip: 'Add Record',
@@ -59,6 +85,7 @@ class AddReportDialogState extends State<AddReportDialog> {
         padding: const EdgeInsets.all(16.0),
         child: new Form(
           key: formKey,
+          autovalidate: true,
           child: new Column(
             children: [
               new DatePicker(
@@ -120,8 +147,11 @@ class AddReportDialogState extends State<AddReportDialog> {
                       ),
                     ),
                     new Flexible(
-                      child: new TextField(
+                      child: new TextFormField(
+                        textAlign: TextAlign.end,
+                        controller: _fSCon,
                         keyboardType: TextInputType.number,
+                        validator: _validate,
                       ),
                     ),
                     new Container(
@@ -134,8 +164,11 @@ class AddReportDialogState extends State<AddReportDialog> {
                       ),
                     ),
                     new Flexible(
-                      child: new TextField(
+                      child: new TextFormField(
+                        textAlign: TextAlign.end,
+                        controller: _fDCon,
                         keyboardType: TextInputType.number,
+                        validator: _validate,
                       ),
                     ),
                     new Container(
@@ -148,8 +181,11 @@ class AddReportDialogState extends State<AddReportDialog> {
                       ),
                     ),
                     new Flexible(
-                      child: new TextField(
+                      child: new TextFormField(
+                        textAlign: TextAlign.end,
+                        controller: _fPCon,
                         keyboardType: TextInputType.number,
+                        validator: _validate,
                       ),
                     ),
                   ],
@@ -179,8 +215,11 @@ class AddReportDialogState extends State<AddReportDialog> {
                       ),
                     ),
                     new Flexible(
-                      child: new TextField(
+                      child: new TextFormField(
+                        textAlign: TextAlign.end,
+                        controller: _sSCon,
                         keyboardType: TextInputType.number,
+                        validator: _validate,
                       ),
                     ),
                     new Container(
@@ -193,8 +232,11 @@ class AddReportDialogState extends State<AddReportDialog> {
                       ),
                     ),
                     new Flexible(
-                      child: new TextField(
+                      child: new TextFormField(
+                        textAlign: TextAlign.end,
+                        controller: _sDCon,
                         keyboardType: TextInputType.number,
+                        validator: _validate,
                       ),
                     ),
                     new Container(
@@ -207,8 +249,11 @@ class AddReportDialogState extends State<AddReportDialog> {
                       ),
                     ),
                     new Flexible(
-                      child: new TextField(
+                      child: new TextFormField(
+                        textAlign: TextAlign.end,
+                        controller: _sPCon,
                         keyboardType: TextInputType.number,
+                        validator: _validate,
                       ),
                     ),
                   ],
@@ -238,7 +283,11 @@ class AddReportDialogState extends State<AddReportDialog> {
                       ),
                     ),
                     new Flexible(
-                      child: new TextFormField(),
+                      child: new TextFormField(
+                        textAlign: TextAlign.end,
+                        focusNode: new AlwaysDisabledFocusNode(),
+                        controller: _aSCon,
+                      ),
                     ),
                     new Container(
                       child: new CircleAvatar(
@@ -250,7 +299,11 @@ class AddReportDialogState extends State<AddReportDialog> {
                       ),
                     ),
                     new Flexible(
-                      child: new TextFormField(),
+                      child: new TextFormField(
+                        textAlign: TextAlign.end,
+                        focusNode: new AlwaysDisabledFocusNode(),
+                        controller: _aDCon,
+                      ),
                     ),
                     new Container(
                       child: new CircleAvatar(
@@ -262,7 +315,11 @@ class AddReportDialogState extends State<AddReportDialog> {
                       ),
                     ),
                     new Flexible(
-                      child: new TextFormField(),
+                      child: new TextFormField(
+                        textAlign: TextAlign.end,
+                        focusNode: new AlwaysDisabledFocusNode(),
+                        controller: _aPCon,
+                      ),
                     ),
                   ],
                 ),
