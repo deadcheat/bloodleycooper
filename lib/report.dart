@@ -16,8 +16,8 @@ class Report {
 
   Measurement average() {
     return new Measurement(
-        ((this.first.minimal + this.second.minimal) / 2).round(),
         ((this.first.maximal + this.second.maximal) / 2).round(),
+        ((this.first.minimal + this.second.minimal) / 2).round(),
         ((this.first.pulse + this.second.pulse) / 2).round());
   }
 
