@@ -88,8 +88,15 @@ class AddReportDialogState extends State<AddReportDialog> {
                     ));
               } else {
                 Scaffold.of(context).showSnackBar(new SnackBar(
-                      content: new Text("Invalidated input"),
-                      duration: new Duration(seconds: 5),
+                      content: new Text(
+                        "Invalidated inputs",
+                        style: new TextStyle(
+                          fontWeight: FontWeight.w900,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      duration: new Duration(seconds: 3),
+                      backgroundColor: Colors.red[300],
                     ));
               }
             },
