@@ -9,6 +9,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:bloodpit/database.dart';
+import 'package:square_calendar/square_calendar.dart';
 
 void main() => runApp(new BloodPit());
 
@@ -65,7 +66,20 @@ class ReportsState extends State<Reports> {
       appBar: new AppBar(
         title: new Text('BloodPit'),
       ),
-      body: _buildReports(),
+      // body: _buildReports(),
+      body: new Column(
+        children: <Widget>[
+          new Expanded(
+            child: new SquareCalendar(
+              year: 2018,
+              month: 2,
+            ),
+          ),
+          new Expanded(
+            child: _buildReports(),
+          ),
+        ],
+      ),
       floatingActionButton: new FloatingActionButton(
         onPressed: () async {
           Report r =
