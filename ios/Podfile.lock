@@ -12,7 +12,7 @@ PODS:
 DEPENDENCIES:
   - Flutter (from `Pods/.symlinks/flutter/ios`)
   - path_provider (from `Pods/.symlinks/plugins/path_provider-0.4.0/ios`)
-  - sqflite (from `Pods/.symlinks/plugins/sqflite-0.8.2/ios`)
+  - sqflite (from `Pods/.symlinks/plugins/sqflite-0.8.3/ios`)
 
 EXTERNAL SOURCES:
   Flutter:
@@ -20,7 +20,7 @@ EXTERNAL SOURCES:
   path_provider:
     :path: Pods/.symlinks/plugins/path_provider-0.4.0/ios
   sqflite:
-    :path: Pods/.symlinks/plugins/sqflite-0.8.2/ios
+    :path: Pods/.symlinks/plugins/sqflite-0.8.3/ios
 
 SPEC CHECKSUMS:
   Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296

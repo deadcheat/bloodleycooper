@@ -67,29 +67,37 @@ class AddReportDialogState extends State<AddReportDialog> {
       appBar: new AppBar(
         title: const Text('Add New Report'),
       ),
-      floatingActionButton: new FloatingActionButton(
-        onPressed: () {
-          final form = _formKey.currentState;
-          if (form.validate()) {
-            Navigator.of(context).pop(new Report(
-                  null,
-                  _date,
-                  _timing,
-                  new Measurement(parseWithZero(_fSCon.text),
-                      parseWithZero(_fDCon.text), parseWithZero(_fPCon.text)),
-                  new Measurement(parseWithZero(_sSCon.text),
-                      parseWithZero(_sDCon.text), parseWithZero(_sPCon.text)),
-                ));
-          } else {
-            Scaffold.of(_scaffoldKey.currentContext).showSnackBar(new SnackBar(
-                  content: new Text("Invalidated input"),
-                  duration: new Duration(seconds: 5),
-                ));
-          }
+      floatingActionButton: new Builder(
+        builder: (context) {
+          return new FloatingActionButton(
+            onPressed: () {
+              final form = _formKey.currentState;
+              if (form.validate()) {
+                Navigator.of(context).pop(new Report(
+                      null,
+                      _date,
+                      _timing,
+                      new Measurement(
+                          parseWithZero(_fSCon.text),
+                          parseWithZero(_fDCon.text),
+                          parseWithZero(_fPCon.text)),
+                      new Measurement(
+                          parseWithZero(_sSCon.text),
+                          parseWithZero(_sDCon.text),
+                          parseWithZero(_sPCon.text)),
+                    ));
+              } else {
+                Scaffold.of(context).showSnackBar(new SnackBar(
+                      content: new Text("Invalidated input"),
+                      duration: new Duration(seconds: 5),
+                    ));
+              }
+            },
+            tooltip: 'Add Record',
+            child: new Icon(Icons.save),
+            backgroundColor: Colors.red,
+          );
         },
-        tooltip: 'Add Record',
-        child: new Icon(Icons.save),
-        backgroundColor: Colors.red,
       ),
       body: new Padding(
         padding: const EdgeInsets.all(16.0),
