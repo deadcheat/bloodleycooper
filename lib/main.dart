@@ -1,15 +1,17 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:bloodpit/addreport.dart';
 import 'package:flutter/material.dart';
-import 'package:bloodpit/report.dart';
-import 'package:bloodpit/timing.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:bloodpit/database.dart';
+
+import 'package:bloodpit/addreport.dart';
+import 'package:bloodpit/report.dart';
+import 'package:bloodpit/timing.dart';
 import 'package:square_calendar/square_calendar.dart';
+import 'package:bloodpit/database.dart';
+import 'package:bloodpit/Converter.dart';
 
 void main() => runApp(new BloodPit());
 
@@ -31,34 +33,44 @@ class Reports extends StatefulWidget {
   createState() => new ReportsState();
 }
 
-class ReportFinder {
-  final _reports = <Report>[];
-
-  List<Report> find() {
-    _reports.add(new Report(
-      100,
-      new DateTime.now(),
-      Timing.EVENING,
-      new Measurement(135, 85, 78),
-      new Measurement(145, 85, 78),
-    ));
-    _reports.add(new Report(
-      101,
-      new DateTime.now().subtract(new Duration(days: 120)),
-      Timing.EVENING,
-      new Measurement(135, 85, 78),
-      new Measurement(145, 85, 78),
-    ));
-    return _reports;
-  }
-}
-
 class ReportsState extends State<Reports> {
-  final _reports = new ReportFinder().find();
+  ReportsState() {
+    _findReportsByYYYMM(_displayDate.year, _displayDate.month)
+        .then((dynamic) => _WeekDataChange());
+  }
+  var _displayingReports = new List<Report>();
+  var _monthReports = new Map<int, List<Report>>();
   final _provider = new ReportDBProvider();
 
-  void _addReport(int pos, Report r) {
-    setState(() => _reports.insert(pos, r));
+  DateTime _displayDate = new DateTime.now();
+
+  void _addReport(Report r) {
+    setState(() {
+      _displayDate = r.date;
+      _displayingReports = _monthReports[
+          BPConverter.yyyyMMDDtoInt(r.date.year, r.date.month, r.date.day)];
+      _displayingReports.add(r);
+    });
+  }
+
+  void _WeekDataChange() {
+    setState(() {
+      _displayingReports = _monthReports[BPConverter.yyyyMMDDtoInt(
+          _displayDate.year, _displayDate.month, _displayDate.day)];
+      if (_displayingReports == null) {
+        _displayingReports = new List<Report>();
+      }
+    });
+  }
+
+  Future _findReportsByYYYMM(num year, num month) async {
+    await _provider.openDB();
+    try {
+      final result = await _provider.findReports(year, month);
+      _monthReports = result;
+    } finally {
+      await _provider.close();
+    }
   }
 
   @override
@@ -94,7 +106,7 @@ class ReportsState extends State<Reports> {
           }
           await _provider.openDB();
           final report = await _provider.addReport(r);
-          _addReport(0, report);
+          _addReport(report);
           await _provider.close();
         },
         tooltip: 'Add Record',
@@ -106,10 +118,10 @@ class ReportsState extends State<Reports> {
 
   Widget _buildReports() {
     return new ListView.builder(
-      itemCount: _reports.length,
+      itemCount: _displayingReports.length,
       padding: const EdgeInsets.all(16.0),
       itemBuilder: (context, int i) {
-        return _buildLine(this._reports[i]);
+        return _buildLine(this._displayingReports[i]);
       },
     );
   }
@@ -127,7 +139,7 @@ class ReportsState extends State<Reports> {
         leading: new Container(
           child: new CircleAvatar(
             child: new Text(
-              '${r.day.month.toString()}/${r.day.day.toString()}',
+              '${r.date.month.toString()}/${r.date.day.toString()}',
               style: new TextStyle(fontSize: 12.0),
               // DefaultTextStyle.of(context).style.apply(fontSizeFactor: 0.4),
             ),

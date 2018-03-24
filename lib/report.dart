@@ -1,15 +1,16 @@
 import 'timing.dart';
+import 'package:bloodpit/Converter.dart';
 
 class Report {
   const Report(
     this.id,
-    this.day,
+    this.date,
     this.timing,
     this.first,
     this.second,
   );
   final int id;
-  final DateTime day;
+  final DateTime date;
   final Timing timing;
   final Measurement first;
   final Measurement second;
@@ -21,17 +22,12 @@ class Report {
         ((this.first.pulse + this.second.pulse) / 2).round());
   }
 
-  int mapKey() {
-    DateTime d = this.day;
-    return (d.year * 1000) + (d.month * 10) + (d.day);
-  }
-
   Map toMap() {
     Map map = {
-      "date": day.millisecondsSinceEpoch,
-      "year": day.year,
-      "month": day.month,
-      "day": day.day,
+      "date": date.millisecondsSinceEpoch,
+      "year": date.year,
+      "month": date.month,
+      "day": date.day,
       "timing": timing.toCode(),
       "first_min": first.minimal,
       "first_max": first.maximal,
@@ -51,8 +47,8 @@ class Report {
     data.forEach((value) {
       Report r = new Report(
         value["id"],
-        value["day"],
-        value["timing"],
+        new DateTime.fromMillisecondsSinceEpoch(value["date"]),
+        new Timing(value: value["timing"]),
         new Measurement(
           value["first_max"],
           value["first_min"],
@@ -64,7 +60,8 @@ class Report {
           value["second_pul"],
         ),
       );
-      int key = r.mapKey();
+      int key =
+          BPConverter.yyyyMMDDtoInt(r.date.year, r.date.month, r.date.day);
       if (result.containsKey(key)) {
         result[key].add(r);
       } else {

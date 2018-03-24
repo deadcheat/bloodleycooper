@@ -16,12 +16,12 @@ class ReportDBProvider {
       return null;
     }
     return new Report(
-        resId, report.day, report.timing, report.first, report.second);
+        resId, report.date, report.timing, report.first, report.second);
   }
 
   Future<Map<int, List<Report>>> findReports(int year, int month) async {
-    List<Map> reports =
-        await db.query("Reports", where: "$year = ? and $year = ?");
+    List<Map> reports = await db.query("Reports",
+        where: "$year = ? and $month = ?", whereArgs: [year, month]);
     if (reports.length > 0) {
       return Report.fromMap(reports);
     }
