@@ -55,6 +55,7 @@ class ReportFinder {
 
 class ReportsState extends State<Reports> {
   final _reports = new ReportFinder().find();
+  final _provider = new ReportDBProvider();
 
   void _addReport(int pos, Report r) {
     setState(() => _reports.insert(pos, r));
@@ -91,8 +92,10 @@ class ReportsState extends State<Reports> {
           if (r == null) {
             return;
           }
-          final future = addReport(r);
-          future.then((r) => _addReport(0, r));
+          await _provider.openDB();
+          final report = await _provider.addReport(r);
+          _addReport(0, report);
+          await _provider.close();
         },
         tooltip: 'Add Record',
         child: new Icon(Icons.add),
