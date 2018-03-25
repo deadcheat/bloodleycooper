@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -87,6 +88,7 @@ class ReportsState extends State<Reports> {
       // body: _buildReports(),
       body: new Column(
         children: <Widget>[
+          new Text(new DateFormat.yMMM().format(_displayDate)),
           new Expanded(
             child: new SquareCalendar(
               year: _displayDate.year,
