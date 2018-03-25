@@ -36,7 +36,7 @@ class Reports extends StatefulWidget {
 class ReportsState extends State<Reports> {
   ReportsState() {
     _findReportsByYYYMM(_displayDate.year, _displayDate.month)
-        .then((dynamic) => _WeekDataChange());
+        .then((dynamic) => _weekDataChange());
   }
   var _displayingReports = new List<Report>();
   var _monthReports = new Map<int, List<Report>>();
@@ -47,13 +47,18 @@ class ReportsState extends State<Reports> {
   void _addReport(Report r) {
     setState(() {
       _displayDate = r.date;
-      _displayingReports = _monthReports[
-          BPConverter.yyyyMMDDtoInt(r.date.year, r.date.month, r.date.day)];
+      final key =
+          BPConverter.yyyyMMDDtoInt(r.date.year, r.date.month, r.date.day);
+      _displayingReports = _monthReports[key];
+      if (_displayingReports == null) {
+        _displayingReports = new List<Report>();
+        _monthReports[key] = _displayingReports;
+      }
       _displayingReports.add(r);
     });
   }
 
-  void _WeekDataChange() {
+  void _weekDataChange() {
     setState(() {
       _displayingReports = _monthReports[BPConverter.yyyyMMDDtoInt(
           _displayDate.year, _displayDate.month, _displayDate.day)];
@@ -84,8 +89,17 @@ class ReportsState extends State<Reports> {
         children: <Widget>[
           new Expanded(
             child: new SquareCalendar(
-              year: 2018,
-              month: 2,
+              year: _displayDate.year,
+              month: _displayDate.month,
+              gestureBuilder: (child, int, date, base, first, last) {
+                return new GestureDetector(
+                  child: child,
+                  onTap: () {
+                    _displayDate = date;
+                    _weekDataChange();
+                  },
+                );
+              },
             ),
           ),
           new Expanded(
@@ -118,7 +132,7 @@ class ReportsState extends State<Reports> {
 
   Widget _buildReports() {
     return new ListView.builder(
-      itemCount: _displayingReports.length,
+      itemCount: (_displayingReports == null) ? 0 : _displayingReports.length,
       padding: const EdgeInsets.all(16.0),
       itemBuilder: (context, int i) {
         return _buildLine(this._displayingReports[i]);
