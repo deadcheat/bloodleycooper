@@ -175,10 +175,13 @@ class ReportsState extends State<Reports> {
   Widget _buildRow(Report r) => new ListTile(
         leading: new Container(
           child: new CircleAvatar(
+            foregroundColor: Colors.white,
+            backgroundColor: (r.timing == Timing.EVENING)
+                ? Colors.deepOrangeAccent
+                : Colors.lightBlue,
             child: new Text(
               '${r.date.month.toString()}/${r.date.day.toString()}',
               style: new TextStyle(fontSize: 12.0),
-              // DefaultTextStyle.of(context).style.apply(fontSizeFactor: 0.4),
             ),
           ),
         ),
