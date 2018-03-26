@@ -102,6 +102,21 @@ class ReportsState extends State<Reports> {
                   },
                 );
               },
+              tileBuilder: (child, int, date, base, first, last) {
+                if (_isSameDate(date, _displayDate)) {
+                  return new Container(
+                    color: Colors.lightGreen[100],
+                    child: new GridTile(
+                      child: child,
+                    ),
+                  );
+                }
+                return new Container(
+                  child: new GridTile(
+                    child: child,
+                  ),
+                );
+              },
             ),
           ),
           new Expanded(
@@ -130,6 +145,12 @@ class ReportsState extends State<Reports> {
         backgroundColor: Colors.red,
       ),
     );
+  }
+
+  bool _isSameDate(DateTime src, DateTime dest) {
+    return (src.year == dest.year &&
+        src.month == dest.month &&
+        src.day == dest.day);
   }
 
   Widget _buildReports() {
