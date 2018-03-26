@@ -50,23 +50,25 @@ class ReportsState extends State<Reports> {
       _displayDate = r.date;
       final key =
           BPConverter.yyyyMMDDtoInt(r.date.year, r.date.month, r.date.day);
-      _displayingReports = _monthReports[key];
-      if (_displayingReports == null) {
-        _displayingReports = new List<Report>();
-        _monthReports[key] = _displayingReports;
-      }
+      _displayingReports = getListFromMap(r.date);
       _displayingReports.add(r);
+      _monthReports[key] = _displayingReports;
     });
   }
 
   void _weekDataChange() {
     setState(() {
-      _displayingReports = _monthReports[BPConverter.yyyyMMDDtoInt(
-          _displayDate.year, _displayDate.month, _displayDate.day)];
-      if (_displayingReports == null) {
-        _displayingReports = new List<Report>();
-      }
+      _displayingReports = getListFromMap(_displayDate);
     });
+  }
+
+  List<Report> getListFromMap(DateTime date) {
+    final key = BPConverter.yyyyMMDDtoInt(date.year, date.month, date.day);
+    var value = _monthReports[key];
+    if (_monthReports[key] != null) {
+      return _monthReports[key];
+    }
+    return new List<Report>();
   }
 
   Future _findReportsByYYYMM(num year, num month) async {
@@ -101,6 +103,70 @@ class ReportsState extends State<Reports> {
                     _weekDataChange();
                   },
                 );
+              },
+              widgetBuilder: (int, date, base, first, last) {
+                var textStyle = new TextStyle(fontWeight: FontWeight.bold);
+                if (base != null && date.month != base.month) {
+                  textStyle = textStyle.apply(color: Colors.grey);
+                } else {
+                  switch (date.weekday) {
+                    case 7:
+                      textStyle = textStyle.apply(color: Colors.red);
+                      break;
+                    case 6:
+                      textStyle = textStyle.apply(color: Colors.blue);
+                      break;
+                    default:
+                  }
+                }
+                final dayReports = getListFromMap(date);
+                var hasMorning = false;
+                var hasEvening = false;
+
+                dayReports.forEach((r) {
+                  if (!hasMorning && r.timing == Timing.MORNING) {
+                    hasMorning = true;
+                  } else if (!hasEvening && r.timing == Timing.EVENING) {
+                    hasEvening = true;
+                  }
+                });
+                final timingIcons = new List<Widget>();
+                final circleRadius = 8.5;
+                if (hasMorning) {
+                  timingIcons.add(new CircleAvatar(
+                    radius: circleRadius,
+                    backgroundColor: Colors.lightBlue,
+                  ));
+                } else {
+                  timingIcons.add(new CircleAvatar(
+                    radius: circleRadius,
+                    backgroundColor: Colors.transparent,
+                  ));
+                }
+                if (hasEvening) {
+                  timingIcons.add(new CircleAvatar(
+                    radius: circleRadius,
+                    backgroundColor: Colors.deepOrangeAccent,
+                  ));
+                }
+                return new Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    new Text(
+                      date.day.toString(),
+                      style: textStyle,
+                      textAlign: TextAlign.center,
+                    ),
+                    new Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: timingIcons),
+                  ],
+                );
+                // return new Text(
+                //   date.day.toString(),
+                //   style: textStyle,
+                //   textAlign: TextAlign.center,
+                // );
               },
               tileBuilder: (child, int, date, base, first, last) {
                 if (_isSameDate(date, _displayDate)) {
