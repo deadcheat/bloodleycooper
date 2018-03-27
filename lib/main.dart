@@ -248,7 +248,11 @@ class ReportsState extends State<Reports> {
           Report r =
               await Navigator.of(context).push(new MaterialPageRoute<Report>(
                   builder: (BuildContext context) {
-                    return new AddReportDialog();
+                    return new AddReportDialog(
+                      _displayDate.year,
+                      _displayDate.month,
+                      _displayDate.day,
+                    );
                   },
                   fullscreenDialog: true));
           if (r == null) {
