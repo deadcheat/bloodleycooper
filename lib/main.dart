@@ -62,6 +62,13 @@ class ReportsState extends State<Reports> {
     });
   }
 
+  void _changeMonth(int diff) {
+    setState(() {
+      _displayDate = new DateTime(
+          _displayDate.year, _displayDate.month + diff, _displayDate.day);
+    });
+  }
+
   List<Report> getListFromMap(DateTime date) {
     final key = BPConverter.yyyyMMDDtoInt(date.year, date.month, date.day);
     var value = _monthReports[key];
@@ -90,18 +97,59 @@ class ReportsState extends State<Reports> {
       // body: _buildReports(),
       body: new Column(
         children: <Widget>[
-          new Text(new DateFormat.yMMM().format(_displayDate)),
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              new Container(
+                alignment: Alignment.bottomLeft,
+                height: 50.0,
+                child: new IconButton(
+                  highlightColor: Colors.lightGreen[300],
+                  splashColor: Colors.lightGreen[100],
+                  icon: const Icon(Icons.arrow_left),
+                  tooltip: 'Previous Month',
+                  onPressed: () => _changeMonth(-1),
+                ),
+              ),
+              new Container(
+                alignment: Alignment.center,
+                height: 50.0,
+                child: new Text(new DateFormat.yMMM().format(_displayDate),
+                    style: new TextStyle(fontSize: 20.0)),
+              ),
+              new Container(
+                alignment: Alignment.bottomLeft,
+                height: 50.0,
+                child: new IconButton(
+                  highlightColor: Colors.lightGreen[300],
+                  splashColor: Colors.lightGreen[100],
+                  icon: const Icon(Icons.arrow_right),
+                  tooltip: 'Next Month',
+                  onPressed: () => _changeMonth(1),
+                ),
+              ),
+            ],
+          ),
           new Expanded(
             child: new SquareCalendar(
               year: _displayDate.year,
               month: _displayDate.month,
               gestureBuilder: (child, int, date, base, first, last) {
-                return new GestureDetector(
-                  child: child,
-                  onTap: () {
-                    _displayDate = date;
-                    _weekDataChange();
-                  },
+                final color = (_isSameDate(date, _displayDate))
+                    ? Colors.lightGreen[100]
+                    : Colors.transparent;
+                return new Material(
+                  color: color,
+                  child: new InkWell(
+                    splashFactory: InkSplash.splashFactory,
+                    highlightColor: Colors.lightGreen[300],
+                    splashColor: Colors.lightGreen[100],
+                    child: child,
+                    onTap: () {
+                      _displayDate = date;
+                      _weekDataChange();
+                    },
+                  ),
                 );
               },
               widgetBuilder: (int, date, base, first, last) {
@@ -161,26 +209,6 @@ class ReportsState extends State<Reports> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: timingIcons),
                   ],
-                );
-                // return new Text(
-                //   date.day.toString(),
-                //   style: textStyle,
-                //   textAlign: TextAlign.center,
-                // );
-              },
-              tileBuilder: (child, int, date, base, first, last) {
-                if (_isSameDate(date, _displayDate)) {
-                  return new Container(
-                    color: Colors.lightGreen[100],
-                    child: new GridTile(
-                      child: child,
-                    ),
-                  );
-                }
-                return new Container(
-                  child: new GridTile(
-                    child: child,
-                  ),
                 );
               },
             ),
