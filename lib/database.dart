@@ -7,11 +7,13 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:bloodpit/report.dart';
 
+final String tablename = "Reports";
+
 class ReportDBProvider {
   Database db;
 
   Future<Report> addReport(Report report) async {
-    final int resId = await db.insert("Reports", report.toMap());
+    final int resId = await db.insert(tablename, report.toMap());
     if (resId == 0) {
       return null;
     }
@@ -19,8 +21,12 @@ class ReportDBProvider {
         resId, report.date, report.timing, report.first, report.second);
   }
 
+  Future<int> delete(int id) async {
+    return await db.delete(tablename, where: "$id = ?", whereArgs: [id]);
+  }
+
   Future<Map<int, List<Report>>> findReports(int year, int month) async {
-    List<Map> reports = await db.query("Reports",
+    List<Map> reports = await db.query(tablename,
         where: "$year = ? and $month = ?", whereArgs: [year, month]);
     if (reports.length > 0) {
       return Report.fromMap(reports);

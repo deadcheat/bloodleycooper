@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:meta/meta.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -12,7 +13,7 @@ import 'package:bloodpit/report.dart';
 import 'package:bloodpit/timing.dart';
 import 'package:square_calendar/square_calendar.dart';
 import 'package:bloodpit/database.dart';
-import 'package:bloodpit/Converter.dart';
+import 'package:bloodpit/converter.dart';
 
 void main() => runApp(new BloodPit());
 
@@ -115,7 +116,6 @@ class ReportsState extends State<Reports> {
       appBar: new AppBar(
         title: new Text('BloodPit'),
       ),
-      // body: _buildReports(),
       body: new Column(
         children: <Widget>[
           new Row(
@@ -239,7 +239,7 @@ class ReportsState extends State<Reports> {
             height: 16.0,
           ),
           new Expanded(
-            child: _buildReports(),
+            child: _buildReports(context),
           ),
         ],
       ),
@@ -285,39 +285,82 @@ class ReportsState extends State<Reports> {
         src.day == dest.day);
   }
 
-  Widget _buildReports() {
+  Widget _buildReports(BuildContext context) {
     const defaultPadding = 16.0;
     return new ListView.builder(
       itemCount: (_displayingReports == null) ? 0 : _displayingReports.length,
       padding: const EdgeInsets.fromLTRB(
           defaultPadding, 0.0, defaultPadding, defaultPadding),
       itemBuilder: (context, int i) {
-        return _buildLine(this._displayingReports[i]);
+        return _buildLine(context, this._displayingReports[i]);
       },
     );
   }
 
-  Widget _buildLine(Report r) => new Dismissible(
-        key: new ObjectKey(r),
-        child: new Column(
-          children: <Widget>[
-            _buildRow(r),
-            new Divider(
-              height: 6.0,
-            ),
-          ],
-        ),
-        direction: DismissDirection.endToStart,
-        background: new Container(),
-        onDismissed: (d) {
+  Widget _buildLine(BuildContext context, Report r) {
+    final ThemeData theme = Theme.of(context);
+    final TextStyle dialogTextStyle =
+        theme.textTheme.subhead.copyWith(color: theme.textTheme.caption.color);
+    return new Dismissible(
+      key: new ObjectKey(r),
+      child: new Column(
+        children: <Widget>[
+          _buildRow(r),
+          new Divider(
+            height: 6.0,
+          ),
+        ],
+      ),
+      direction: DismissDirection.endToStart,
+      background: new Container(),
+      onDismissed: (d) async {
+        bool discarded = await showDialog<bool>(
+          context: context,
+          child: new AlertDialog(
+              content: new Text("Delete a selected report, OK?",
+                  style: dialogTextStyle),
+              actions: <Widget>[
+                new FlatButton(
+                    child: const Text('CANCEL'),
+                    onPressed: () {
+                      final date = r.date;
+                      final key = BPConverter.yyyyMMDDtoInt(
+                          date.year, date.month, date.day);
+                      _displayingReports = _monthReports[key];
+                      Navigator.pop(context, false);
+                    }),
+                new FlatButton(
+                    child: const Text('DISCARD'),
+                    onPressed: () async {
+                      await _provider.openDB();
+                      await _provider.delete(r.id);
+                      await _provider.close();
+                      Navigator.pop(context, true);
+                    })
+              ]),
+        );
+        if (discarded) {
           _dismissReport(r);
-        },
-        secondaryBackground: new Container(
-            color: Colors.redAccent,
-            child: const ListTile(
-                trailing:
-                    const Icon(Icons.delete, color: Colors.white, size: 36.0))),
-      );
+          Scaffold.of(context).showSnackBar(new SnackBar(
+                backgroundColor: Colors.blue[800],
+                content: new Text(
+                  'Discarded a report successfully',
+                  textAlign: TextAlign.center,
+                  style: new TextStyle(
+                      fontSize: 20.0, fontWeight: FontWeight.bold),
+                ),
+              ));
+        } else {
+          setState(() {});
+        }
+      },
+      secondaryBackground: new Container(
+          color: Colors.redAccent,
+          child: const ListTile(
+              trailing:
+                  const Icon(Icons.delete, color: Colors.white, size: 36.0))),
+    );
+  }
 
   Widget _buildRow(Report r) => new ListTile(
         leading: new Container(
