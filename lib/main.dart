@@ -46,14 +46,26 @@ class ReportsState extends State<Reports> {
   DateTime _displayDate = new DateTime.now();
 
   void _addReport(Report r) {
-    setState(() {
-      _displayDate = r.date;
-      final key =
-          BPConverter.yyyyMMDDtoInt(r.date.year, r.date.month, r.date.day);
-      _displayingReports = getListFromMap(r.date);
-      _displayingReports.add(r);
-      _monthReports[key] = _displayingReports;
-    });
+    final date = r.date;
+    final key = BPConverter.yyyyMMDDtoInt(date.year, date.month, date.day);
+    if (_displayDate.year == date.year && _displayDate.month == date.month) {
+      setState(() {
+        _displayDate = date;
+        _displayingReports = getListFromMap(date);
+        _displayingReports.add(r);
+        _monthReports[key] = _displayingReports;
+      });
+    } else {
+      _findReportsByYYYMM(_displayDate.year, _displayDate.month)
+          .then((dynamic) {
+        setState(() {
+          _displayDate = date;
+          _displayingReports = getListFromMap(date);
+          _displayingReports.add(r);
+          _monthReports[key] = _displayingReports;
+        });
+      });
+    }
   }
 
   void _weekDataChange() {
@@ -62,11 +74,20 @@ class ReportsState extends State<Reports> {
     });
   }
 
-  void _changeMonth(int diff) {
+  void _dismissReport(Report r) {
+    final date = r.date;
+    final key = BPConverter.yyyyMMDDtoInt(date.year, date.month, date.day);
     setState(() {
-      _displayDate = new DateTime(
-          _displayDate.year, _displayDate.month + diff, _displayDate.day);
+      _displayingReports.remove(r);
+      _monthReports[key] = _displayingReports;
     });
+  }
+
+  void _changeMonth(int diff) {
+    _displayDate = new DateTime(
+        _displayDate.year, _displayDate.month + diff, _displayDate.day);
+    _findReportsByYYYMM(_displayDate.year, _displayDate.month)
+        .then((dynamic) => _weekDataChange());
   }
 
   List<Report> getListFromMap(DateTime date) {
@@ -257,13 +278,26 @@ class ReportsState extends State<Reports> {
     );
   }
 
-  Widget _buildLine(Report r) => new Column(
-        children: <Widget>[
-          _buildRow(r),
-          new Divider(
-            height: 10.0,
-          ),
-        ],
+  Widget _buildLine(Report r) => new Dismissible(
+        key: new ObjectKey(r),
+        child: new Column(
+          children: <Widget>[
+            _buildRow(r),
+            new Divider(
+              height: 10.0,
+            ),
+          ],
+        ),
+        direction: DismissDirection.endToStart,
+        background: new Container(),
+        onDismissed: (d) {
+          _dismissReport(r);
+        },
+        secondaryBackground: new Container(
+            color: Colors.redAccent,
+            child: const ListTile(
+                trailing:
+                    const Icon(Icons.delete, color: Colors.white, size: 36.0))),
       );
 
   Widget _buildRow(Report r) => new ListTile(
