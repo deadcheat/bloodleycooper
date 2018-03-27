@@ -93,11 +93,10 @@ class ReportsState extends State<Reports> {
 
   List<Report> getListFromMap(DateTime date) {
     final key = BPConverter.yyyyMMDDtoInt(date.year, date.month, date.day);
-    var value = _monthReports[key];
-    if (_monthReports[key] != null) {
-      return _monthReports[key];
+    if (_monthReports == null || _monthReports[key] == null) {
+      return new List<Report>();
     }
-    return new List<Report>();
+    return _monthReports[key];
   }
 
   Future _findReportsByYYYMM(num year, num month) async {
@@ -105,6 +104,9 @@ class ReportsState extends State<Reports> {
     try {
       final result = await _provider.findReports(year, month);
       _monthReports = result;
+      if (_monthReports == null) {
+        _monthReports = new Map<int, List<Report>>();
+      }
     } finally {
       await _provider.close();
     }
@@ -152,86 +154,89 @@ class ReportsState extends State<Reports> {
             ],
           ),
           new Expanded(
-            child: new SquareCalendar(
-              year: _displayDate.year,
-              month: _displayDate.month,
-              gestureBuilder: (child, int, date, base, first, last) {
-                final color = (_isSameDate(date, _displayDate))
-                    ? Colors.lightGreen[100]
-                    : Colors.transparent;
-                return new Material(
-                  color: color,
-                  child: new InkWell(
-                    splashFactory: InkSplash.splashFactory,
-                    highlightColor: Colors.lightGreen[300],
-                    splashColor: Colors.lightGreen[100],
-                    child: child,
-                    onTap: () {
-                      _displayDate = date;
-                      _weekDataChange();
-                    },
-                  ),
-                );
-              },
-              widgetBuilder: (int, date, base, first, last) {
-                var textStyle = new TextStyle(fontWeight: FontWeight.bold);
-                if (base != null && date.month != base.month) {
-                  textStyle = textStyle.apply(color: Colors.grey);
-                } else {
-                  switch (date.weekday) {
-                    case 7:
-                      textStyle = textStyle.apply(color: Colors.red);
-                      break;
-                    case 6:
-                      textStyle = textStyle.apply(color: Colors.blue);
-                      break;
-                    default:
-                  }
-                }
-                final dayReports = getListFromMap(date);
-                var hasMorning = false;
-                var hasEvening = false;
-
-                dayReports.forEach((r) {
-                  if (!hasMorning && r.timing == Timing.MORNING) {
-                    hasMorning = true;
-                  } else if (!hasEvening && r.timing == Timing.EVENING) {
-                    hasEvening = true;
-                  }
-                });
-                final timingIcons = new List<Widget>();
-                final circleRadius = 8.5;
-                if (hasMorning) {
-                  timingIcons.add(new CircleAvatar(
-                    radius: circleRadius,
-                    backgroundColor: Colors.lightBlue,
-                  ));
-                } else {
-                  timingIcons.add(new CircleAvatar(
-                    radius: circleRadius,
-                    backgroundColor: Colors.transparent,
-                  ));
-                }
-                if (hasEvening) {
-                  timingIcons.add(new CircleAvatar(
-                    radius: circleRadius,
-                    backgroundColor: Colors.deepOrangeAccent,
-                  ));
-                }
-                return new Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    new Text(
-                      date.day.toString(),
-                      style: textStyle,
-                      textAlign: TextAlign.center,
+            flex: 7,
+            child: new Container(
+              child: new SquareCalendar(
+                year: _displayDate.year,
+                month: _displayDate.month,
+                gestureBuilder: (child, int, date, base, first, last) {
+                  final color = (_isSameDate(date, _displayDate))
+                      ? Colors.lightGreen[100]
+                      : Colors.transparent;
+                  return new Material(
+                    color: color,
+                    child: new InkWell(
+                      splashFactory: InkSplash.splashFactory,
+                      highlightColor: Colors.lightGreen[300],
+                      splashColor: Colors.lightGreen[100],
+                      child: child,
+                      onTap: () {
+                        _displayDate = date;
+                        _weekDataChange();
+                      },
                     ),
-                    new Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: timingIcons),
-                  ],
-                );
-              },
+                  );
+                },
+                widgetBuilder: (int, date, base, first, last) {
+                  var textStyle = new TextStyle(fontWeight: FontWeight.bold);
+                  if (base != null && date.month != base.month) {
+                    textStyle = textStyle.apply(color: Colors.grey);
+                  } else {
+                    switch (date.weekday) {
+                      case 7:
+                        textStyle = textStyle.apply(color: Colors.red);
+                        break;
+                      case 6:
+                        textStyle = textStyle.apply(color: Colors.blue);
+                        break;
+                      default:
+                    }
+                  }
+                  final dayReports = getListFromMap(date);
+                  var hasMorning = false;
+                  var hasEvening = false;
+
+                  dayReports.forEach((r) {
+                    if (!hasMorning && r.timing == Timing.MORNING) {
+                      hasMorning = true;
+                    } else if (!hasEvening && r.timing == Timing.EVENING) {
+                      hasEvening = true;
+                    }
+                  });
+                  final timingIcons = new List<Widget>();
+                  final circleRadius = 8.5;
+                  if (hasMorning) {
+                    timingIcons.add(new CircleAvatar(
+                      radius: circleRadius,
+                      backgroundColor: Colors.lightBlue,
+                    ));
+                  } else {
+                    timingIcons.add(new CircleAvatar(
+                      radius: circleRadius,
+                      backgroundColor: Colors.transparent,
+                    ));
+                  }
+                  if (hasEvening) {
+                    timingIcons.add(new CircleAvatar(
+                      radius: circleRadius,
+                      backgroundColor: Colors.deepOrangeAccent,
+                    ));
+                  }
+                  return new Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      new Text(
+                        date.day.toString(),
+                        style: textStyle,
+                        textAlign: TextAlign.center,
+                      ),
+                      new Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: timingIcons),
+                    ],
+                  );
+                },
+              ),
             ),
           ),
           new Divider(
@@ -239,6 +244,7 @@ class ReportsState extends State<Reports> {
             height: 16.0,
           ),
           new Expanded(
+            flex: 5,
             child: _buildReports(context),
           ),
         ],

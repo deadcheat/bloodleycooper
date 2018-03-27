@@ -351,7 +351,7 @@ packages:
       name: square_calendar
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.8"
+    version: "0.0.9"
   stack_trace:
     dependency: transitive
     description:
