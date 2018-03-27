@@ -234,6 +234,10 @@ class ReportsState extends State<Reports> {
               },
             ),
           ),
+          new Divider(
+            color: Colors.green,
+            height: 16.0,
+          ),
           new Expanded(
             child: _buildReports(),
           ),
@@ -269,9 +273,11 @@ class ReportsState extends State<Reports> {
   }
 
   Widget _buildReports() {
+    const defaultPadding = 16.0;
     return new ListView.builder(
       itemCount: (_displayingReports == null) ? 0 : _displayingReports.length,
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.fromLTRB(
+          defaultPadding, 0.0, defaultPadding, defaultPadding),
       itemBuilder: (context, int i) {
         return _buildLine(this._displayingReports[i]);
       },
@@ -284,7 +290,7 @@ class ReportsState extends State<Reports> {
           children: <Widget>[
             _buildRow(r),
             new Divider(
-              height: 10.0,
+              height: 6.0,
             ),
           ],
         ),
