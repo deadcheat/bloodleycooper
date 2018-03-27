@@ -5,22 +5,27 @@ import 'package:bloodpit/datepicker.dart';
 import 'package:bloodpit/disabledfocus.dart';
 
 class AddReportDialog extends StatefulWidget {
-  const AddReportDialog(this.year, this.month, this.day);
+  const AddReportDialog(this.year, this.month, this.day, this.hasMorning);
   final int year;
   final int month;
   final int day;
+  final bool hasMorning;
   @override
-  AddReportDialogState createState() =>
-      new AddReportDialogState(this.year, this.month, this.day);
+  AddReportDialogState createState() => new AddReportDialogState(
+      this.year, this.month, this.day, this.hasMorning);
 }
 
 class AddReportDialogState extends State<AddReportDialog> {
-  AddReportDialogState(this.year, this.month, this.day) {
+  AddReportDialogState(this.year, this.month, this.day, this.hasMorning) {
     _date = new DateTime(this.year, this.month, this.day);
+    if (this.hasMorning) {
+      _timing = Timing.EVENING;
+    }
   }
   final int year;
   final int month;
   final int day;
+  final bool hasMorning;
   final _formKey = new GlobalKey<FormState>();
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
   Timing _timing = Timing.MORNING;

@@ -248,10 +248,19 @@ class ReportsState extends State<Reports> {
           Report r =
               await Navigator.of(context).push(new MaterialPageRoute<Report>(
                   builder: (BuildContext context) {
+                    bool hasMorning = false;
+                    if (!_isSameDate(_displayDate, new DateTime.now())) {
+                      _displayingReports.forEach((r) {
+                        if (!hasMorning && r.timing == Timing.MORNING) {
+                          hasMorning = true;
+                        }
+                      });
+                    }
                     return new AddReportDialog(
                       _displayDate.year,
                       _displayDate.month,
                       _displayDate.day,
+                      hasMorning,
                     );
                   },
                   fullscreenDialog: true));
