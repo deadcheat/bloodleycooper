@@ -13,7 +13,7 @@ dependencies:
   path_provider: "^0.4.0"
   sqflite: any
   meta: "^1.1.2"
-  square_calendar: ^0.1.0
+  square_calendar: ^0.1.1
 
 dev_dependencies:
   flutter_test:
