@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:bloodpit/report.dart';
-import 'package:bloodpit/timing.dart';
-import 'package:bloodpit/datepicker.dart';
-import 'package:bloodpit/disabledfocus.dart';
+import 'package:bloodleycooper/report.dart';
+import 'package:bloodleycooper/timing.dart';
+import 'package:bloodleycooper/datepicker.dart';
+import 'package:bloodleycooper/disabledfocus.dart';
 
 class AddReportDialog extends StatefulWidget {
   const AddReportDialog(this.year, this.month, this.day, this.hasMorning);

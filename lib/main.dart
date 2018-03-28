@@ -3,20 +3,20 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'package:bloodpit/addreport.dart';
-import 'package:bloodpit/report.dart';
-import 'package:bloodpit/timing.dart';
+import 'package:bloodleycooper/addreport.dart';
+import 'package:bloodleycooper/report.dart';
+import 'package:bloodleycooper/timing.dart';
 import 'package:square_calendar/square_calendar.dart';
-import 'package:bloodpit/database.dart';
-import 'package:bloodpit/converter.dart';
+import 'package:bloodleycooper/database.dart';
+import 'package:bloodleycooper/converter.dart';
 
-void main() => runApp(new BloodPit());
+void main() => runApp(new Bloodley());
 
-class BloodPit extends StatelessWidget {
+class Bloodley extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'BloodPit',
+      title: 'Bloodley',
       theme: new ThemeData(
         primaryColor: Colors.green,
       ),

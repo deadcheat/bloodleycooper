@@ -1,0 +1,104 @@
+Flutter crash report; please file at https://github.com/flutter/flutter/issues.
+
+## command
+
+flutter packages get
+
+## exception
+
+YamlException: Error on line 5, column 1: Expected ':'.
+dependencies:
+^
+
+```
+#0      Scanner._staleSimpleKeys (package:yaml/src/scanner.dart:491)
+#1      Scanner._fetchMoreTokens (package:yaml/src/scanner.dart:325)
+#2      Scanner.peek (package:yaml/src/scanner.dart:317)
+#3      Scanner.advance (package:yaml/src/scanner.dart:311)
+#4      Parser._parseBlockMappingValue (package:yaml/src/parser.dart:471)
+#5      Parser._stateMachine (package:yaml/src/parser.dart:88)
+#6      Parser.parse (package:yaml/src/parser.dart:47)
+#7      Loader._loadMapping (package:yaml/src/loader.dart:165)
+#8      Loader._loadNode (package:yaml/src/loader.dart:86)
+#9      Loader._loadDocument (package:yaml/src/loader.dart:62)
+#10     Loader.load (package:yaml/src/loader.dart:54)
+#11     loadYamlDocument (package:yaml/yaml.dart:51)
+#12     loadYamlNode (package:yaml/yaml.dart:42)
+#13     loadYaml (package:yaml/yaml.dart:34)
+#14     _pluginFromPubspec (package:flutter_tools/src/plugins.dart:52)
+#15     _findPlugins.<anonymous closure> (package:flutter_tools/src/plugins.dart:75)
+#16     _HashVMBase&MapMixin&&_LinkedHashMapMixin.forEach (dart:collection-patch/dart:collection/compact_hash.dart:363)
+#17     _findPlugins (package:flutter_tools/src/plugins.dart:73)
+#18     injectPlugins (package:flutter_tools/src/plugins.dart:238)
+#19     FlutterProject.ensureReadyForPlatformSpecificTooling (package:flutter_tools/src/project.dart:62)
+#20     PackagesGetCommand.runCommand (package:flutter_tools/src/commands/packages.dart:80)
+<asynchronous suspension>
+#21     FlutterCommand.verifyThenRunCommand (package:flutter_tools/src/runner/flutter_command.dart:290)
+<asynchronous suspension>
+#22     FlutterCommand.run (package:flutter_tools/src/runner/flutter_command.dart:228)
+<asynchronous suspension>
+#23     CommandRunner.runCommand (package:args/command_runner.dart:194)
+<asynchronous suspension>
+#24     FlutterCommandRunner.runCommand (package:flutter_tools/src/runner/flutter_command_runner.dart:286)
+<asynchronous suspension>
+#25     CommandRunner.run.<anonymous closure> (package:args/command_runner.dart:109)
+#26     new Future.sync (dart:async/future.dart:222)
+#27     CommandRunner.run (package:args/command_runner.dart:109)
+#28     FlutterCommandRunner.run (package:flutter_tools/src/runner/flutter_command_runner.dart:166)
+#29     run.<anonymous closure> (package:flutter_tools/runner.dart:90)
+<asynchronous suspension>
+#30     AppContext._run (package:flutter_tools/src/base/context.dart:76)
+<asynchronous suspension>
+#31     AppContext.runInZone.<anonymous closure> (package:flutter_tools/src/base/context.dart:66)
+#32     _rootRun (dart:async/zone.dart:1126)
+#33     _CustomZone.run (dart:async/zone.dart:1023)
+#34     runZoned (dart:async/zone.dart:1501)
+#35     AppContext.runInZone (package:flutter_tools/src/base/context.dart:65)
+#36     run (package:flutter_tools/runner.dart:61)
+<asynchronous suspension>
+#37     main (package:flutter_tools/executable.dart:48)
+<asynchronous suspension>
+#38     main (file:///Users/michihisa/flutter/packages/flutter_tools/bin/flutter_tools.dart:16)
+#39     _startIsolate.<anonymous closure> (dart:isolate-patch/dart:isolate/isolate_patch.dart:277)
+#40     _RawReceivePortImpl._handleMessage (dart:isolate-patch/dart:isolate/isolate_patch.dart:165)
+```
+
+## flutter doctor
+
+```
+[✓] Flutter (Channel beta, v0.2.3, on Mac OS X 10.13.3 17D102, locale ja-JP)
+    • Flutter version 0.2.3 at /Users/michihisa/flutter
+    • Framework revision 5a58b36e36 (2 weeks ago), 2018-03-13 13:20:13 -0700
+    • Engine revision e61bb9ac3a
+    • Dart version 2.0.0-dev.35.flutter-290c576264
+
+[✗] Android toolchain - develop for Android devices
+    ✗ ANDROID_HOME = /Users/michihisa/Applications/android-sdk-macosx
+      but Android SDK not found at this location.
+
+[✓] iOS toolchain - develop for iOS devices (Xcode 9.1)
+    • Xcode at /Applications/Xcode.app/Contents/Developer
+    • Xcode 9.1, Build version 9B55
+    • ios-deploy 1.9.2
+    • CocoaPods version 1.4.0
+
+[✗] Android Studio (not installed)
+    • Android Studio not found; download from https://developer.android.com/studio/index.html
+      (or visit https://flutter.io/setup/#android-setup for detailed instructions).
+
+[!] IntelliJ IDEA Ultimate Edition (version 2017.3.5)
+    • IntelliJ at /Applications/IntelliJ IDEA.app
+    ✗ Flutter plugin not installed; this adds Flutter specific functionality.
+    ✗ Dart plugin not installed; this adds Dart specific functionality.
+    • For information about installing plugins, see
+      https://flutter.io/intellij-setup/#installing-the-plugins
+
+[✓] VS Code (version 1.21.1)
+    • VS Code at /Applications/Visual Studio Code.app/Contents
+    • Dart Code extension version 2.11.1
+
+[✓] Connected devices (1 available)
+    • iPhone X • B956DBB0-3DE1-42F9-BB78-6DA9699DB59D • ios • iOS 11.1 (simulator)
+
+! Doctor found issues in 3 categories.
+```
