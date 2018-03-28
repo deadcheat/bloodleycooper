@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 import 'package:bloodleycooper/addreport.dart';
@@ -107,6 +108,8 @@ class ReportsState extends State<Reports> {
     }
   }
 
+  static const MethodChannel methodChannel =
+      const MethodChannel('bloodley.deadcheat.com/bloodpressure');
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -272,6 +275,15 @@ class ReportsState extends State<Reports> {
           final report = await _provider.addReport(r);
           _addReport(report);
           await _provider.close();
+
+          // send health kit
+          final ave = report.average();
+          try {
+            final bool succeeded = await methodChannel
+                .invokeMethod("post", <int>[ave.maximal, ave.minimal]);
+          } on PlatformException catch (e) {
+            print(e);
+          }
         },
         tooltip: 'Add Record',
         child: new Icon(Icons.add),
