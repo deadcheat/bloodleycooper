@@ -315,45 +315,51 @@ class ReportsState extends State<Reports> {
       direction: DismissDirection.endToStart,
       background: new Container(),
       onDismissed: (d) async {
-        bool discarded = await showDialog<bool>(
-          context: context,
-          child: new AlertDialog(
-              content: new Text("Delete a selected report, OK?",
-                  style: dialogTextStyle),
-              actions: <Widget>[
-                new FlatButton(
-                    child: const Text('CANCEL'),
-                    onPressed: () {
-                      final date = r.date;
-                      final key = BPConverter.yyyyMMDDtoInt(
-                          date.year, date.month, date.day);
-                      _displayingReports = _monthReports[key];
-                      Navigator.pop(context, false);
-                    }),
-                new FlatButton(
-                    child: const Text('DISCARD'),
-                    onPressed: () async {
-                      await _provider.openDB();
-                      await _provider.delete(r.id);
-                      await _provider.close();
-                      Navigator.pop(context, true);
-                    })
-              ]),
-        );
-        if (discarded) {
-          _dismissReport(r);
-          Scaffold.of(context).showSnackBar(new SnackBar(
-                backgroundColor: Colors.blue[800],
-                content: new Text(
-                  'Discarded a report successfully',
-                  textAlign: TextAlign.center,
-                  style: new TextStyle(
-                      fontSize: 20.0, fontWeight: FontWeight.bold),
-                ),
-              ));
-        } else {
-          setState(() {});
-        }
+        // final deletedIndex = _displayingReports.indexOf(r);
+        // showDialog<bool>(
+        //   context: context,
+        //   child: new AlertDialog(
+        //       content: new Text("Delete a selected report, OK?",
+        //           style: dialogTextStyle),
+        //       actions: <Widget>[
+        //         new FlatButton(
+        //             child: const Text('CANCEL'),
+        //             onPressed: () {
+        //               final date = r.date;
+        //               final key = BPConverter.yyyyMMDDtoInt(
+        //                   date.year, date.month, date.day);
+        //               _displayingReports = _monthReports[key];
+        //               Navigator.pop(context, false);
+        //             }),
+        //         new FlatButton(
+        //             child: const Text('DISCARD'),
+        //             onPressed: () async {
+        //               await _provider.openDB();
+        //               await _provider.delete(r.id);
+        //               await _provider.close();
+        //               Navigator.pop(context, true);
+        //             })
+        //       ]),
+        // ).then((discard) {
+        //   if (discard) {
+        await _provider.openDB();
+        await _provider.delete(r.id);
+        await _provider.close();
+        _dismissReport(r);
+        Scaffold.of(context).showSnackBar(new SnackBar(
+              backgroundColor: Colors.blue[800],
+              content: new Text(
+                'Discarded a report successfully',
+                textAlign: TextAlign.center,
+                style:
+                    new TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+              ),
+            ));
+        // } else {
+        //   setState(() {
+        //     _displayingReports.insert(deletedIndex, r);
+        //   });
+        // }
       },
       secondaryBackground: new Container(
           color: Colors.redAccent,
