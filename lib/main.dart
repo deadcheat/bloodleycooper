@@ -108,7 +108,7 @@ class ReportsState extends State<Reports> {
     }
   }
 
-  static const MethodChannel methodChannel =
+  static const MethodChannel bloodChannel =
       const MethodChannel('bloodley.deadcheat.com/bloodpressure');
   @override
   Widget build(BuildContext context) {
@@ -279,8 +279,9 @@ class ReportsState extends State<Reports> {
           // send health kit
           final ave = report.average();
           try {
-            final bool succeeded = await methodChannel
-                .invokeMethod("post", <int>[ave.maximal, ave.minimal]);
+            bloodChannel
+                .invokeMethod("post", <int>[ave.maximal, ave.minimal]).then(
+                    (result) => print("done" + result.toString()));
           } on PlatformException catch (e) {
             print(e);
           }
