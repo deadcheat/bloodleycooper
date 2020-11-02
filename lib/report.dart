@@ -22,22 +22,22 @@ class Report {
         ((this.first.pulse + this.second.pulse) / 2).round());
   }
 
-  Map toMap() {
-    Map map = {
-      "date": date.millisecondsSinceEpoch,
-      "year": date.year,
-      "month": date.month,
-      "day": date.day,
-      "timing": timing.toCode(),
-      "first_min": first.minimal,
-      "first_max": first.maximal,
-      "first_pul": first.pulse,
-      "second_min": second.minimal,
-      "second_max": second.maximal,
-      "second_pul": second.pulse,
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> map = {
+      'date': date.millisecondsSinceEpoch,
+      'year': date.year,
+      'month': date.month,
+      'day': date.day,
+      'timing': timing.toCode(),
+      'first_min': first.minimal,
+      'first_max': first.maximal,
+      'first_pul': first.pulse,
+      'second_min': second.minimal,
+      'second_max': second.maximal,
+      'second_pul': second.pulse,
     };
     if (id != null) {
-      map["id"] = id;
+      map['id'] = id;
     }
     return map;
   }
